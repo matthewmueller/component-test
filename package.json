@@ -1,0 +1,26 @@
+{
+  "name": "component-test",
+  "version": "0.0.1",
+  "description": "test components locally or with phantom",
+  "keywords": [],
+  "author": "Matthew Mueller <mattmuelle@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MatthewMueller/component-test.git"
+  },
+  "dependencies": {
+    "commander": "~2.1.0",
+    "express": "~3.4.6",
+    "cheerio": "~0.12.4",
+    "glob": "~3.2.7",
+    "open": "0.0.4"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "bin": {
+    "component-test": "bin/component-test"
+  },
+  "main": "index"
+}

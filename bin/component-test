@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+/**
+ * Module Dependencies
+ */
+
+var fs = require('fs');
+var path = require('path')
+var read = fs.readFileSync;
+var join = path.join;
+var cwd = process.cwd();
+var glob = require('glob').sync;
+var program = require('commander');
+var express = require('express');
+var cheerio = require('cheerio');
+var lib = join(__dirname, '../lib');
+var pkg = join(__dirname, '../package.json')
+
+/**
+ * Program
+ */
+
+program
+  .version(require(pkg).version)
+  .usage('[options] testdir')
+  .option('--browser', 'test in the browser')
+  .option('--phantom', 'test in using phantom.js')
+  .option('--sauce', 'test in using saucelabs')
+
+program.parse(process.argv);
+
+/**
+ * Fetch the files
+ */
+
+var testdir = join(cwd, program.args[0] || 'test');
+var testfiles = glob(join(testdir, '*.js'));
+
+var builddir = join(cwd, 'build');
+var buildfiles = glob(join(builddir, '*.{css,js}'))
+
+if (!testfiles.length) {
+  console.error('no test files in %s', testdir);
+  process.exit(1);
+}
+
+/**
+ * Get the environment. Defaults to `browser`
+ */
+
+var env = program.phantom ? 'phantom' : program.sauce ? 'sauce' : 'browser';
+
+/**
+ * Execute an action
+ */
+
+var action = require(join(lib, env));
+
+if (!action) {
+  console.error('no action found.')
+  process.exit(1);
+}
+
+var files = buildfiles.concat(testfiles);
+
+action(files, process.argv, function(err) {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+
+  process.exit(0);
+});

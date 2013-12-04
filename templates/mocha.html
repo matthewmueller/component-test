@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>domify tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/mocha.css" />
+    <link rel="stylesheet" href="/build.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="/mocha.js"></script>
+    <script>
+      mocha.setup('bdd');
+    </script>
+    <script src="/build.js"></script>
+    <script id="run">
+      if (window.mochaPhantomJS) {
+        mochaPhantomJS.run();
+      } else {
+        mocha.run();
+      }
+    </script>
+  </body>
+</html>
