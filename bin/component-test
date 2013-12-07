@@ -13,8 +13,18 @@ var glob = require('glob').sync;
 var program = require('commander');
 var express = require('express');
 var cheerio = require('cheerio');
+var extend = require('extend.js');
 var lib = join(__dirname, '../lib');
-var pkg = join(__dirname, '../package.json')
+var pkg = join(__dirname, '../package.json');
+var runnerdir = join(lib, 'runners');
+var config = require(join(lib, 'config'));
+var noop = function(){};
+
+/**
+ * Load the config
+ */
+
+var conf = config.read();
 
 /**
  * Program
@@ -22,52 +32,168 @@ var pkg = join(__dirname, '../package.json')
 
 program
   .version(require(pkg).version)
-  .usage('[options] testdir')
-  .option('--browser', 'test in the browser')
-  .option('--phantom', 'test in using phantom.js')
-  .option('--sauce', 'test in using saucelabs')
+  .usage('<runner> [options]')
+  .unknownOption = noop;
+
+/**
+ * Browser testing
+ */
+
+program
+  .command('browser')
+  .description('run tests in the browser')
+  .action(browser)
+  .unknownOption = noop;
+
+/**
+ * Phantom testing
+ */
+
+program
+  .command('phantom')
+  .description('run tests using phantomjs')
+  .action(phantom)
+  .unknownOption = noop;
+
+/**
+ * Sauce testing
+ */
+
+program
+  .command('sauce')
+  .option('-a, --auth <auth>', '<username:accesskey> pass in the saucelabs credentials')
+  .option('-b, --browser <browser>', '<browser, browser, ...> add the browsers to test')
+  .description('run tests using saucelabs')
+  .action(sauce)
+  .unknownOption = noop;
+
+/**
+ * Parse the options, ignoring unknowns
+ */
 
 program.parse(process.argv);
 
 /**
- * Fetch the files
+ * Run tests in browser
  */
 
-var testdir = join(cwd, program.args[0] || 'test');
-var testfiles = glob(join(testdir, '*.js'));
-
-var builddir = join(cwd, 'build');
-var buildfiles = glob(join(builddir, '*.{css,js}'))
-
-if (!testfiles.length) {
-  console.error('no test files in %s', testdir);
-  process.exit(1);
+function browser() {
+  var runner = require(join(runnerdir, 'browser'));
+  runner(done);
 }
 
 /**
- * Get the environment. Defaults to `browser`
+ * Run tests using phantom
  */
 
-var env = program.phantom ? 'phantom' : program.sauce ? 'sauce' : 'browser';
-
-/**
- * Execute an action
- */
-
-var action = require(join(lib, env));
-
-if (!action) {
-  console.error('no action found.')
-  process.exit(1);
+function phantom() {
+  var runner = require(join(runnerdir, 'phantom'));
+  runner(done);
 }
 
-var files = buildfiles.concat(testfiles);
+/**
+ * Run tests using saucelabs
+ */
 
-action(files, process.argv, function(err) {
-  if (err) {
-    console.error(err);
-    process.exit(1);
+function sauce(options) {
+  var runner = require(join(runnerdir, 'sauce'));
+  var auth = options.auth || process.env.SAUCE || conf.sauce;
+  var browsers = options.browser || process.env.BROWSER;
+
+  // prompt
+  var prompt = {};
+
+  if (!auth) {
+    prompt.user = 'Enter your saucelab\'s username: ';
+    prompt.key = 'Enter your saucelab\'s access key: ';
   }
 
-  process.exit(0);
-});
+  if (!browsers) {
+    prompt.browsers = 'Enter the browsers you would like to test: ';
+  }
+
+  program.prompt(prompt, function(obj) {
+    auth = auth || obj.user + ':' + obj.key;
+    browsers = browsers || obj.browsers;
+
+    // auth
+    if (!auth) {
+      console.error('No authentication specified');
+      process.exit(1);
+    } else if (obj.user && obj.key) {
+      conf.sauce = auth;
+      config.save(conf);
+    }
+
+    // browsers
+    if (!browsers) {
+      console.error('No browsers specified to test');
+      process.exit(1);
+    }
+
+    var opts = {};
+    opts.auth = auth;
+    opts.browsers = browsers.trim().split(/\s*,\s*/);
+
+    runner(opts, done);
+  });
+
+}
+
+/**
+ * All done!
+ */
+
+function done(err) {
+
+}
+
+// /**
+//  * Get the environment. Defaults to `browser`
+//  */
+
+// var env = program.phantom ? 'phantom' : program.sauce ? 'sauce' : 'browser';
+
+// /**
+//  * Execute an action
+//  */
+
+// var runner = require(join(lib, 'runners', env));
+
+// if (!runner) {
+//   console.error('no runner found.')
+//   process.exit(1);
+// }
+
+// /**
+//  * Maybe prompt
+//  */
+
+// var prompt = {};
+// var conf = config.read();
+
+// // prompt for credentials if not already entered
+// if ('sauce' == env && !conf.sauce) {
+//   prompt.sauceuser = 'Enter your saucelab\'s username: ';
+//   prompt.saucekey = 'Enter your saucelab\'s access key: ';
+// }
+
+// program.prompt(prompt, function(obj) {
+//   args = extend(args, obj);
+//   runner(args, function(err) {
+//     if (err) {
+//       console.error(err);
+//       process.exit(1);
+//     }
+
+//     // update config
+//     var json = {};
+//     if ('sauce' == env && !conf.sauce) {
+//       json.sauce = obj.sauceuser + ':' + obj.saucekey;
+//     }
+//     conf.save(json);
+
+//     process.exit(0);
+//   });
+// })
+

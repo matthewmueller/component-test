@@ -1,9 +1,11 @@
 
 # component-test
 
-  test components locally or with phantom
+  Zero configuration component test runner supporting browser testing, phantomjs, and saucelabs. Because browser testing should be kinda fun™
 
-## License 
+
+
+## License
 
 (The MIT License)
 

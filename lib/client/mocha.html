@@ -8,6 +8,7 @@
   <body>
     <div id="mocha"></div>
     <script src="/mocha.js"></script>
+    <script src="/mocha-cloud.js"></script>
     <script>
       mocha.setup('bdd');
     </script>
@@ -16,7 +17,7 @@
       if (window.mochaPhantomJS) {
         mochaPhantomJS.run();
       } else {
-        mocha.run();
+        cloud(mocha.run());
       }
     </script>
   </body>
