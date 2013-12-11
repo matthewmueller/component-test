@@ -13,7 +13,6 @@ var glob = require('glob').sync;
 var program = require('commander');
 var express = require('express');
 var cheerio = require('cheerio');
-var extend = require('extend.js');
 var lib = join(__dirname, '../lib');
 var pkg = join(__dirname, '../package.json');
 var runnerdir = join(lib, 'runners');
@@ -108,10 +107,6 @@ function sauce(options) {
     prompt.key = 'Enter your saucelab\'s access key: ';
   }
 
-  if (!browsers) {
-    prompt.browsers = 'Enter the browsers you would like to test: ';
-  }
-
   program.prompt(prompt, function(obj) {
     auth = auth || obj.user + ':' + obj.key;
     browsers = browsers || obj.browsers;
@@ -127,7 +122,9 @@ function sauce(options) {
 
     // browsers
     if (!browsers) {
-      console.error('No browsers specified to test');
+      console.error('No browsers specified. Example: -b "iphone 6.0 Mac 10.8". Visit:');
+      console.error('http://saucelabs.com/rest/v1.1/info/scout?os_product_names=true');
+      console.error('for a list of available browsers.');
       process.exit(1);
     }
 
@@ -145,55 +142,10 @@ function sauce(options) {
  */
 
 function done(err) {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
 
+  process.exit(0);
 }
-
-// /**
-//  * Get the environment. Defaults to `browser`
-//  */
-
-// var env = program.phantom ? 'phantom' : program.sauce ? 'sauce' : 'browser';
-
-// /**
-//  * Execute an action
-//  */
-
-// var runner = require(join(lib, 'runners', env));
-
-// if (!runner) {
-//   console.error('no runner found.')
-//   process.exit(1);
-// }
-
-// /**
-//  * Maybe prompt
-//  */
-
-// var prompt = {};
-// var conf = config.read();
-
-// // prompt for credentials if not already entered
-// if ('sauce' == env && !conf.sauce) {
-//   prompt.sauceuser = 'Enter your saucelab\'s username: ';
-//   prompt.saucekey = 'Enter your saucelab\'s access key: ';
-// }
-
-// program.prompt(prompt, function(obj) {
-//   args = extend(args, obj);
-//   runner(args, function(err) {
-//     if (err) {
-//       console.error(err);
-//       process.exit(1);
-//     }
-
-//     // update config
-//     var json = {};
-//     if ('sauce' == env && !conf.sauce) {
-//       json.sauce = obj.sauceuser + ':' + obj.saucekey;
-//     }
-//     conf.save(json);
-
-//     process.exit(0);
-//   });
-// })
-

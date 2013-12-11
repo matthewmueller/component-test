@@ -1,9 +1,78 @@
 
 # component-test
 
-  Zero configuration component test runner supporting browser testing, phantomjs, and saucelabs. Because browser testing should be kinda fun™
+  Zero configuration component test runner supporting browser testing, phantomjs, and saucelabs. Because browser testing should be sweet™
 
+## Installation
 
+    npm install -g component-test2
+
+## API
+
+### Browser
+
+In browser testing
+
+```
+component test browser
+```
+
+![browser](https://i.cloudup.com/sQNerIUJuO.png)
+
+### Phantom
+
+Test using [phantomjs](http://phantomjs.org/).
+
+```
+component test phantom
+```
+
+![phantom](https://i.cloudup.com/z3wclSEdB4.png)
+
+### Saucelabs
+
+Test using [saucelabs](https://saucelabs.com/).
+
+```
+component test sauce -b "iphone 6.0 Mac OS 10.8, firefox 5 Windows XP"
+```
+
+![saucelabs](https://i.cloudup.com/gauAnVubef.png)
+
+### Travis
+
+First download the travis gem:
+
+```
+gem install travis
+```
+
+Encrypt your credentials:
+
+```
+travis encrypt SAUCE=username:password -r component/domify
+```
+
+Then add the browsers you want to test. Here's what the [component/domify](http://github.com/component/domify) `.travis.yml` looks like:
+
+```
+language: node_js
+node_js:
+  - '0.10'
+env:
+  global:
+    - secure: PT7QR0DCGcZ+JjH4kpsaGHPYyjdbKbm44Wj9nsHA/QgIG/FRBCvsAU1OyaWHF8KCP6p0TEfhgeW+vUlZfxlbpDa4eSR8kjqkcNTR1CWKqYfjjQzBFzibrmLE+gKOnIRxFhdwUjzatRc1A2B+jX/03HoIgsUhnG83xiinz21dBJI=
+  matrix:
+    - BROWSER="iphone 6.1 Mac 10.8"
+    - BROWSER="ipad 5.1 Mac 10.8"
+    - BROWSER="firefox 6 Mac 10.6"d
+```
+
+## TODO
+
+- Offer higher-level API over saucelabs in separate repo (like [zuul](https://github.com/defunctzombie/zuul))
+- Use Travis API for encryption (eg. mimic behavior of `travis encrypt`)
+- Provide API for adding browsers to .travis.yml
 
 ## License
 
