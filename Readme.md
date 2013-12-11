@@ -68,6 +68,10 @@ env:
     - BROWSER="firefox 6 Mac 10.6"d
 ```
 
+And here's the result:
+
+![travis](https://i.cloudup.com/zAWWsvZSiC.png)
+
 ## TODO
 
 - Offer higher-level API over saucelabs in separate repo (like [zuul](https://github.com/defunctzombie/zuul))
