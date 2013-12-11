@@ -1,7 +1,7 @@
 
 # component-test
 
-  Zero configuration component test runner supporting browser testing, phantomjs, and saucelabs. Because browser testing should be sweet™
+  Minimal configuration component test runner supporting browser testing, phantomjs, and saucelabs.
 
 ## Installation
 
