@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/mocha.css" />
     <link rel="stylesheet" href="/build.css" />
   </head>
-  <body>
+  <body onload="load()">
     <div id="mocha"></div>
     <script src="/mocha.js"></script>
     <script src="/mocha-cloud.js"></script>
@@ -18,6 +18,10 @@
         mochaPhantomJS.run();
       } else {
         cloud(mocha.run());
+      }
+      function load() {
+        var img = new Image();
+        img.src = '/kill.gif';
       }
     </script>
   </body>
