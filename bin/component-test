@@ -41,6 +41,7 @@ program
 program
   .command('browser')
   .description('run tests in the default browser')
+  .option('-k, --kill', 'kill the server after the page loads in the browser')
   .action(browser)
   .unknownOption = noop;
 
@@ -58,9 +59,10 @@ program
   program
     .command(browser)
     .description('run tests in ' + browser)
-    .action(function () {
+    .option('-k, --kill', 'kill the server after the page loads in the browser')
+    .action(function (options) {
       var runner = require(join(runnerdir, 'browser'));
-      runner(browser, done);
+      runner(browser, options, done);
     })
     .unknownOption = noop;
 });
@@ -97,10 +99,10 @@ program.parse(process.argv);
  * Run tests in browser
  */
 
-function browser(name) {
+function browser(name, options) {
   var runner = require(join(runnerdir, 'browser'));
-  if (arguments.length === 1) runner(null, done);
-  else runner(name, done);
+  if (arguments.length === 1) runner(null, name, done);
+  else runner(name, options, done);
 }
 
 /**
