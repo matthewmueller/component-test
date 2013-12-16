@@ -60,9 +60,30 @@ program
 
 program
   .command('browser')
-  .description('run tests in the browser')
+  .description('run tests in the default browser')
   .action(browser)
   .unknownOption = noop;
+
+/**
+ * Direct browser testing
+ */
+
+[
+  'safari',
+  'chrome',
+  'firefox',
+  'opera',
+  'ie',
+].forEach(function (browser) {
+  program
+    .command(browser)
+    .description('run tests in ' + browser)
+    .action(function () {
+      var runner = require(join(runnerdir, 'browser'));
+      runner(browser, done);
+    })
+    .unknownOption = noop;
+});
 
 /**
  * Phantom testing
@@ -96,9 +117,10 @@ program.parse(process.argv);
  * Run tests in browser
  */
 
-function browser() {
+function browser(name) {
   var runner = require(join(runnerdir, 'browser'));
-  runner(done);
+  if (arguments.length === 1) runner(null, done);
+  else runner(name, done);
 }
 
 /**
