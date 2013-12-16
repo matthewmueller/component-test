@@ -13,6 +13,7 @@ var glob = require('glob').sync;
 var program = require('commander');
 var express = require('express');
 var cheerio = require('cheerio');
+var yaml = require('yamljs');
 var lib = join(__dirname, '../lib');
 var pkg = join(__dirname, '../package.json');
 var runnerdir = join(lib, 'runners');
@@ -24,6 +25,25 @@ var noop = function(){};
  */
 
 var conf = config.read();
+
+/**
+ * Try to read the travis file
+ */
+
+try {
+  var travis = yaml.parse(read(join(cwd, '.travis.yml'), 'utf8'));
+  var travisBrowsers = [];
+  travisBrowsers = travisBrowsers
+    .concat(travis.env.global || [])
+    .concat(travis.env.matrix || [])
+    .filter(function(env) {
+      return /BROWSER=/.test(env);
+    })
+    .map(function(env) {
+      return env.match(/\"([^\"]+)/)[1];
+    })
+    .join(',');
+} catch(e) {}
 
 /**
  * Program
@@ -97,7 +117,7 @@ function phantom() {
 function sauce(options) {
   var runner = require(join(runnerdir, 'sauce'));
   var auth = options.auth || process.env.SAUCE || conf.sauce;
-  var browsers = options.browser || process.env.BROWSER;
+  var browsers = options.browser || process.env.BROWSER || travisBrowsers;
 
   // prompt
   var prompt = {};
