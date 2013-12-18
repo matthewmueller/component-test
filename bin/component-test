@@ -61,6 +61,7 @@ program
 program
   .command('browser')
   .description('run tests in the default browser')
+  .option('-t, --tunnel', 'create a public url using localtunnel')
   .action(browser)
   .unknownOption = noop;
 
@@ -117,10 +118,10 @@ program.parse(process.argv);
  * Run tests in browser
  */
 
-function browser(name) {
+function browser(name, options) {
   var runner = require(join(runnerdir, 'browser'));
-  if (arguments.length === 1) runner(null, done);
-  else runner(name, done);
+  if (arguments.length === 1) runner(null, options, done);
+  else runner(name, options, done);
 }
 
 /**
