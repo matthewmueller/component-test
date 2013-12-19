@@ -1,4 +1,10 @@
 
+0.1.2 / 2013-12-19
+==================
+
+ * pin mocha cloud
+ * have errors pass through mochaResults
+
 0.1.1 / 2013-12-19
 ==================
 
