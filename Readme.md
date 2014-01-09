@@ -5,7 +5,7 @@
 
 ## Installation
 
-    npm install -g component-test2
+    npm install -g component-test
 
 ## API
 
