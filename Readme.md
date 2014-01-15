@@ -58,7 +58,7 @@ gem install travis
 Encrypt your credentials:
 
 ```
-travis encrypt SAUCE=username:password -r component/domify
+travis encrypt SAUCE=username:accessKey -r component/domify
 ```
 
 Then add the browsers you want to test. Here's what the [component/domify](http://github.com/component/domify) `.travis.yml` looks like:
