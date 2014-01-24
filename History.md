@@ -1,4 +1,12 @@
 
+0.1.3 / 2014-01-24
+==================
+
+ * give an error if no build/ dir present
+ * Updated misleading wording in travis/saucelabs docs (@jb55)
+ * component-test2 => component-test thanks to @ask11
+ * pass arguments through to mocha-phantomjs
+
 0.1.2 / 2013-12-19
 ==================
 
