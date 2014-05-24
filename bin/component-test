@@ -92,6 +92,7 @@ program
 
 program
   .command('phantom')
+  .option('-c, --coverage [output file]', 'output coverage from istanbul or jscoverage to [output file] (defaults to coverage/coverage.json)')
   .description('run tests using phantomjs')
   .action(phantom)
   .unknownOption = noop;
@@ -128,9 +129,9 @@ function browser(name, options) {
  * Run tests using phantom
  */
 
-function phantom() {
+function phantom(options) {
   var runner = require(join(runnerdir, 'phantom'));
-  runner(done);
+  runner(options.coverage, done);
 }
 
 /**
