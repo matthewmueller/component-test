@@ -21,7 +21,8 @@
     "osenv": "0.0.3",
     "optimist": "~0.6.0",
     "debug": "~0.7.4",
-    "yamljs": "~0.1.4"
+    "yamljs": "~0.1.4",
+    "cross-spawn": "^0.1.7"
   },
   "bin": {
     "component-test": "bin/component-test"
