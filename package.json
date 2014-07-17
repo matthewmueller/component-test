@@ -9,20 +9,20 @@
     "url": "git://github.com/MatthewMueller/component-test.git"
   },
   "dependencies": {
-    "cheerio": "0.12.4",
     "commander": "1.3.2",
-    "cross-spawn": "^0.1.7",
-    "debug": "~0.7.4",
     "express": "3.4.6",
+    "cheerio": "0.12.4",
     "glob": "3.2.7",
-    "localtunnel": "~0.1.3",
-    "mocha": "1.15.1",
-    "mocha-cloud": "MatthewMueller/mocha-cloud#0.1.0",
-    "mocha-phantomjs": "~3.3.2",
     "open": "0.0.4",
-    "optimist": "~0.6.0",
+    "mocha-phantomjs": "~3.3.2",
+    "mocha-cloud": "MatthewMueller/mocha-cloud#0.1.0",
+    "mocha": "1.15.1",
+    "localtunnel": "~0.1.3",
     "osenv": "0.0.3",
-    "yamljs": "~0.1.4"
+    "optimist": "~0.6.0",
+    "debug": "~0.7.4",
+    "yamljs": "~0.1.4",
+    "cross-spawn": "^0.1.7"
   },
   "bin": {
     "component-test": "bin/component-test"
