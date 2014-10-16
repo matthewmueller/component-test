@@ -1,6 +1,6 @@
 {
   "name": "component-test",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "test components locally or with phantom",
   "keywords": [],
   "author": "Matthew Mueller <mattmuelle@gmail.com>",
