@@ -15,7 +15,7 @@
     "glob": "3.2.7",
     "open": "0.0.4",
     "mocha-phantomjs": "~3.3.2",
-    "mocha-cloud": "MatthewMueller/mocha-cloud#0.1.0",
+    "mocha-cloud2": "0.1.0",
     "mocha": "1.15.1",
     "localtunnel": "~0.1.3",
     "osenv": "0.0.3",
