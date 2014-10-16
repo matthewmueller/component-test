@@ -1,4 +1,12 @@
 
+0.1.4 / 2014-10-16
+==================
+
+  * Release 0.1.4
+  * Fix spawn on Windows - #33
+  * add mocha-phantomjs hook to write coverage stats to a file
+  * update mocha-phantomjs for custom reporter support
+
 0.1.3 / 2014-01-24
 ==================
 
