@@ -23,14 +23,6 @@ component test browser
 
 Test using [phantomjs](http://phantomjs.org/).
 
-You'll first need to install phantomjs. Using homebrew:
-
-```
-brew install phantomjs
-```
-
-Then you can run the tests:
-
 ```
 component test phantom
 ```
