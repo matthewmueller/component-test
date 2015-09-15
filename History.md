@@ -1,4 +1,9 @@
 
+0.1.5 / 2015-09-16
+==================
+
+The changes fix a bug where the tool hangs due to the user having a newer version of phantomjs in their path than what is compatible with the tool. The changes fix the issue by bundling its own version of phantomjs as a dependency instead of relying on the version of phantomjs installed in the developer's path. - #36
+
 0.1.4 / 2014-10-16
 ==================
 
