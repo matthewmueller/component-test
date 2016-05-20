@@ -1,4 +1,12 @@
 
+0.1.6 / 2016-05-20
+==================
+
+NPM 3 tries to install dependencies in a
+[flat structure](https://docs.npmjs.com/how-npm-works/npm3) and therefore
+references to those dependencies now need to use a dynamic lookup (e.g.
+require.resolve()) instead of assuming a particular relative file path. - #37
+
 0.1.5 / 2015-09-16
 ==================
 
